@@ -4,11 +4,12 @@ part of 'camera_use_bloc.dart';
 
 class CameraUseState extends Equatable {
   final String message;
-  const CameraUseState({
-    required this.message,
-  });
+  final String id;
+  final String cameraState;
+  const CameraUseState(
+      {required this.message, this.id = "", this.cameraState = "initial"});
 
-  factory CameraUseState.initial() => CameraUseState(message: "initial");
+  factory CameraUseState.initial() => const CameraUseState(message: "initial");
 
   @override
   List<Object> get props => [message];

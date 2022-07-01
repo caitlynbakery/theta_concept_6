@@ -39,4 +39,17 @@ class _$ThetaService extends ThetaService {
     final $request = Request('GET', $url, client.baseUrl, headers: $headers);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> status(Map<String, dynamic> body) {
+    final $url = 'http://192.168.1.1/osc/commands/status';
+    final $headers = {
+      'Content-Type': 'application/json;charset=utf-8',
+    };
+
+    final $body = body;
+    final $request =
+        Request('POST', $url, client.baseUrl, body: $body, headers: $headers);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

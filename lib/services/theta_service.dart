@@ -12,6 +12,10 @@ abstract class ThetaService extends ChopperService {
       path: '/info',
       headers: {'Content-Type': 'application/json;charset=utf-8'})
   Future<Response> info();
+  @Post(
+      path: '/commands/status',
+      headers: {'Content-Type': 'application/json;charset=utf-8'})
+  Future<Response> status(@Body() Map<String, dynamic> body);
   static ThetaService create() {
     return _$ThetaService();
   }
