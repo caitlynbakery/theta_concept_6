@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
                       onPressed: () {
                         context.read<CameraUseBloc>().add(TakePictureEvent());
                       },
-                      icon: Icon(Icons.camera))
+                      icon: Icon(Icons.camera)),
+                  Text(state.elaspedTime.toString()),
+                  Text(state.cameraState)
                 ],
               ),
             );

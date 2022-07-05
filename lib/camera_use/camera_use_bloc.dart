@@ -14,18 +14,26 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
         services: [ThetaService.create()], converter: const JsonConverter());
     final thetaService = chopper.getService<ThetaService>();
     on<TakePictureEvent>((event, emit) async {
+      Stopwatch stopwatch = Stopwatch();
+      stopwatch.start();
       var response = await thetaService.command({'name': 'camera.takePicture'});
       var convertResponse = jsonDecode(response.bodyString);
       var id = convertResponse['id'];
-      emit(CameraUseState(message: response.bodyString, id: id));
 
-      while (state.cameraState != "done") {
-        add(CameraStatusEvent());
+      if (convertResponse != null && id != null) {
+        emit(CameraUseState(message: response.bodyString, id: id));
 
-        await Future.delayed(Duration(milliseconds: 200));
-        print(state.cameraState);
+        while (state.cameraState != "done") {
+          add(CameraStatusEvent());
+
+          await Future.delayed(Duration(milliseconds: 200));
+          print(state.cameraState);
+        }
+        stopwatch.stop();
+        state.elaspedTime = stopwatch.elapsedMilliseconds.toDouble();
+        //  print(stopwatch.elapsedMilliseconds);
+        print(state.elaspedTime);
       }
-      print(state.cameraState);
     });
     on<CameraStatusEvent>((event, emit) async {
       if (state.id.isNotEmpty) {
