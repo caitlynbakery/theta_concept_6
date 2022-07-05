@@ -10,3 +10,5 @@ abstract class CameraUseEvent extends Equatable {
 class TakePictureEvent extends CameraUseEvent {}
 
 class CameraStatusEvent extends CameraUseEvent {}
+
+class ImagePictureEvent extends CameraUseEvent {}

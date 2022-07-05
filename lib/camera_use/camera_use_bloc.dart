@@ -29,15 +29,23 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
 
           await Future.delayed(Duration(milliseconds: 200));
           print(state.cameraState);
-          print(stopwatch.elapsedMilliseconds);
+          print(state.elaspedTime);
           emit(CameraUseState(
               id: id,
               message: response.bodyString,
               elaspedTime: stopwatch.elapsedMilliseconds.toDouble(),
               cameraState: state.cameraState));
+          // emit(state.copyWith(elapsedTime:));
+          //     state.elaspedTime = stopwatch.elapsedMilliseconds.toDouble();
         }
         stopwatch.stop();
+        // emit(CameraUseState(
+        //       id: id,
+        //       message: response.bodyString,
+        //       elaspedTime: stopwatch.elapsedMilliseconds.toDouble(),
+        //       cameraState: state.cameraState));
         stopwatch.reset();
+        add(ImagePictureEvent());
       }
     });
     on<CameraStatusEvent>((event, emit) async {
@@ -51,9 +59,26 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
             id: state.id,
             cameraState: cameraState,
             elaspedTime: stopwatch.elapsedMilliseconds.toDouble()));
-//TODO: cameraState is not updating to inProgress
-        //  print(state.cameraState);
       }
+    });
+    on<ImagePictureEvent>((event, emit) async {
+      var response = await thetaService.command({
+        'name': 'camera.listFiles',
+        'parameters': {
+          'fileType': 'image',
+          'startPosition': 0,
+          'entryCount': 1,
+          'maxThumbSize': 0
+        }
+      });
+      var convertResponse = jsonDecode(response.bodyString);
+      var fileUrl = convertResponse['results']['entries'][0]['fileUrl'];
+      emit(CameraUseState(
+          message: '',
+          fileUrl: fileUrl,
+          cameraState: state.cameraState,
+          elaspedTime: state.elaspedTime));
+      print(fileUrl);
     });
   }
 }

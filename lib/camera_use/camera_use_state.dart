@@ -7,25 +7,29 @@ class CameraUseState extends Equatable {
   final String id;
   final String cameraState;
   double elaspedTime = 0.0;
+  final String fileUrl;
+
   CameraUseState(
       {required this.message,
       this.id = "",
       this.cameraState = "initial",
-      this.elaspedTime = 0.0});
+      this.elaspedTime = 0.0,
+      this.fileUrl = ""});
 
   factory CameraUseState.initial() => CameraUseState(message: "initial");
 
   @override
   List<Object> get props => [message, id, cameraState, elaspedTime];
 
+  double getElapsedTime() => this.elaspedTime;
+
   @override
   bool get stringify => true;
 
-  CameraUseState copyWith({
-    String? message,
-  }) {
+  CameraUseState copyWith({String? message, double? elapsedTime}) {
     return CameraUseState(
       message: message ?? this.message,
+      elaspedTime: elaspedTime,
     );
   }
 }

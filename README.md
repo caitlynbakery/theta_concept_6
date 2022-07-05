@@ -54,3 +54,5 @@ emit(CameraUseState(
             id: state.id,
             cameraState: cameraState));
 ```
+
+* Although the application can update the UI with a stopwatch, the code to run the program gets quite long. The state is emitted multiple times in order to update the stopwatch. 

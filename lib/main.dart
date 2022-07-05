@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:theta_concept_6/full_image_screen.dart';
 
 import 'camera_use/camera_use_bloc.dart';
 
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Timer: ${(state.elaspedTime / 1000).toString()}',
+                        '${state.elaspedTime}',
+                        //'Timer: ${(state.elaspedTime / 1000).toString()}',
                         style: TextStyle(fontSize: 30),
                       ),
                     ],
@@ -48,6 +50,23 @@ class MyApp extends StatelessWidget {
                     children: [
                       Text('State: ${state.cameraState}',
                           style: TextStyle(fontSize: 30)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      state.cameraState == 'done' && state.fileUrl.isNotEmpty
+                          ? InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FullImageScreen(
+                                            fileUrl: state.fileUrl)));
+                              },
+                              child:
+                                  Image.network('${state.fileUrl}?type=thumb'))
+                          : Container()
                     ],
                   )
                 ],
