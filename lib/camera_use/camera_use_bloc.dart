@@ -24,7 +24,6 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
 
         await Future.delayed(Duration(milliseconds: 200));
         print(state.cameraState);
-        print('camera is in progress');
       }
       print(state.cameraState);
     });
@@ -33,9 +32,11 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
         var response = await thetaService.status({'id': state.id});
         var convertResponse = jsonDecode(response.bodyString);
         var cameraState = convertResponse['state'];
-        print(cameraState);
+
         emit(CameraUseState(
-            message: response.bodyString, cameraState: cameraState));
+            message: response.bodyString,
+            id: state.id,
+            cameraState: cameraState));
 //TODO: cameraState is not updating to inProgress
         //  print(state.cameraState);
       }

@@ -37,3 +37,20 @@ Test different delays between `/osc/status` command.  Likely the delay will be a
 * application must check "camera status" to see if camera is ready for the next command.  If the camera status is not checked, THETA apps may exhibit unexpected behavior
 * using `/osc/status` is a little difficult since the API command requires the "id" of the previous command it is checking on.  The developer needs to chain two commands together
 * the check for `/osc/status` needs to be in a loop.  The developer needs to delay the iteration of the loop so that the camera CPU is not overloaded
+
+## Problems Encountered
+
+* Add properties to the `prop` list in state in order for the state to update
+
+```dart
+  List<Object> get props => [message, id, cameraState];
+```
+
+* Add `id` when emitting the `CameraStatusEvent` 
+
+```dart
+emit(CameraUseState(
+            message: response.bodyString,
+            id: state.id,
+            cameraState: cameraState));
+```

@@ -12,7 +12,7 @@ class CameraUseState extends Equatable {
   factory CameraUseState.initial() => const CameraUseState(message: "initial");
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, id, cameraState];
 
   @override
   bool get stringify => true;
