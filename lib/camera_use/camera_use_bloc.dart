@@ -13,8 +13,9 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
     var chopper = ChopperClient(
         services: [ThetaService.create()], converter: const JsonConverter());
     final thetaService = chopper.getService<ThetaService>();
+    Stopwatch stopwatch = Stopwatch();
+
     on<TakePictureEvent>((event, emit) async {
-      Stopwatch stopwatch = Stopwatch();
       stopwatch.start();
       var response = await thetaService.command({'name': 'camera.takePicture'});
       var convertResponse = jsonDecode(response.bodyString);
@@ -28,11 +29,15 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
 
           await Future.delayed(Duration(milliseconds: 200));
           print(state.cameraState);
+          print(stopwatch.elapsedMilliseconds);
+          emit(CameraUseState(
+              id: id,
+              message: response.bodyString,
+              elaspedTime: stopwatch.elapsedMilliseconds.toDouble(),
+              cameraState: state.cameraState));
         }
         stopwatch.stop();
-        state.elaspedTime = stopwatch.elapsedMilliseconds.toDouble();
-        //  print(stopwatch.elapsedMilliseconds);
-        print(state.elaspedTime);
+        stopwatch.reset();
       }
     });
     on<CameraStatusEvent>((event, emit) async {
@@ -44,7 +49,8 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
         emit(CameraUseState(
             message: response.bodyString,
             id: state.id,
-            cameraState: cameraState));
+            cameraState: cameraState,
+            elaspedTime: stopwatch.elapsedMilliseconds.toDouble()));
 //TODO: cameraState is not updating to inProgress
         //  print(state.cameraState);
       }

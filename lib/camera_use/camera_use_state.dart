@@ -8,7 +8,10 @@ class CameraUseState extends Equatable {
   final String cameraState;
   double elaspedTime = 0.0;
   CameraUseState(
-      {required this.message, this.id = "", this.cameraState = "initial"});
+      {required this.message,
+      this.id = "",
+      this.cameraState = "initial",
+      this.elaspedTime = 0.0});
 
   factory CameraUseState.initial() => CameraUseState(message: "initial");
 

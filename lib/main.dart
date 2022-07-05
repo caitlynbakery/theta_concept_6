@@ -19,14 +19,37 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               body: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        context.read<CameraUseBloc>().add(TakePictureEvent());
-                      },
-                      icon: Icon(Icons.camera)),
-                  Text(state.elaspedTime.toString()),
-                  Text(state.cameraState)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            context
+                                .read<CameraUseBloc>()
+                                .add(TakePictureEvent());
+                          },
+                          iconSize: 100,
+                          icon: Icon(Icons.camera)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Timer: ${(state.elaspedTime / 1000).toString()}',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('State: ${state.cameraState}',
+                          style: TextStyle(fontSize: 30)),
+                    ],
+                  )
                 ],
               ),
             );
