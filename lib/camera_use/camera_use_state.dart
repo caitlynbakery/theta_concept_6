@@ -19,7 +19,12 @@ class CameraUseState extends Equatable {
   factory CameraUseState.initial() => CameraUseState(message: "initial");
 
   @override
-  List<Object> get props => [message, id, cameraState, elaspedTime];
+  List<Object> get props => [
+        message,
+        id,
+        cameraState,
+        elaspedTime,
+      ];
 
   double getElapsedTime() => this.elaspedTime;
 
