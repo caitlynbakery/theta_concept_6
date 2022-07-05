@@ -1,5 +1,7 @@
 # THETA X Concept 6
 
+![gif](docs/stopwatch.gif)
+
 After running a takePicture command, a developer must check to see if the camera is ready before issuing another command
 
 ## Overview
@@ -56,3 +58,62 @@ emit(CameraUseState(
 ```
 
 * Although the application can update the UI with a stopwatch, the code to run the program gets quite long. The state is emitted multiple times in order to update the stopwatch. 
+
+## StopWatch
+
+To implement the timer feature in the application, the Stopwatch class was imported into the project. Inside of the `CameraUseState` file, a variable called `elapsedTime` records the time that has passed on the stopwatch. When the user presses the takePicture button, the stopwatch is started.
+
+```dart
+      stopwatch.start();
+```
+
+Then, a while loop continously adds the `CameraStatusEvent` until the image is done shooting or `state.cameraState` equals done. The delay is neccessary to give enough time for the state of the camera to change. Thus, the `elapsedTime` variable is updated every 200 milliseconds and the UI changes in tandem.
+
+```dart
+      while (state.cameraState != "done") {
+          add(CameraStatusEvent());
+
+          await Future.delayed(Duration(milliseconds: 200));
+          emit(CameraUseState(
+              id: id,
+              message: response.bodyString,
+              elaspedTime: stopwatch.elapsedMilliseconds.toDouble(),
+              cameraState: state.cameraState));
+        }
+```
+
+Outside of the while loop, once the camera is finished taking the picture, the stopwatch is reset.
+
+```dart
+stopwatch.stop();
+        stopwatch.reset();
+```
+
+## Response Window
+
+Similar to previous apps, the thumbnail is inside of a ternary operator and is shown if the `cameraState` equals done and there is a `fileUrl`. The thumbnail image is wrapped with an `InkWell` widget that routes to another screen when pressed. This screen shows the image in full view using the [Panorama](https://pub.dev/packages/panorama) package, also found in a previous tutorial.
+
+```dart
+state.cameraState == 'done' && state.fileUrl.isNotEmpty
+                          ? InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FullImageScreen(
+                                            fileUrl: state.fileUrl)));
+                              },
+                              child:
+                                  Image.network('${state.fileUrl}?type=thumb'))
+```
+
+The ternary operator is a nested ternary operator. If the `cameraState` is not equal to done it checks if the `cameraState` is equal to inProgress. It returns a loading widget from [SpinKit](https://pub.dev/packages/flutter_spinkit) if true. Else, the response displays a Container widget.
+
+```dart
+   : state.cameraState == 'inProgress'
+                              ? SpinKitFadingCircle(
+                                  size: 100.0,
+                                  color: Color.fromARGB(255, 208, 206, 206),
+                                )
+                              : Container()
+```

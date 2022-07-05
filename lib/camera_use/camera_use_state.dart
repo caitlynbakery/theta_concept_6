@@ -28,6 +28,10 @@ class CameraUseState extends Equatable {
 
   double getElapsedTime() => this.elaspedTime;
 
+  void setElapsedTime(double time) {
+    this.elaspedTime = time;
+  }
+
   @override
   bool get stringify => true;
 

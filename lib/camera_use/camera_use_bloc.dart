@@ -35,15 +35,9 @@ class CameraUseBloc extends Bloc<CameraUseEvent, CameraUseState> {
               message: response.bodyString,
               elaspedTime: stopwatch.elapsedMilliseconds.toDouble(),
               cameraState: state.cameraState));
-          // emit(state.copyWith(elapsedTime:));
-          //     state.elaspedTime = stopwatch.elapsedMilliseconds.toDouble();
+          state.setElapsedTime(stopwatch.elapsedMilliseconds.toDouble());
         }
         stopwatch.stop();
-        // emit(CameraUseState(
-        //       id: id,
-        //       message: response.bodyString,
-        //       elaspedTime: stopwatch.elapsedMilliseconds.toDouble(),
-        //       cameraState: state.cameraState));
         stopwatch.reset();
         add(ImagePictureEvent());
       }
