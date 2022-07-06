@@ -12,7 +12,7 @@ The process id is parsed out when the `commands/execute` is run and then emitted
 
 ## Overview
 
-The camera will take 3-5 seconds after a picture is taken to be ready to take another picture.  The time may vary depending on light conditions and filters.  For example, using the HDR filter will result in a longer time to be ready.  There are many scenarios where the time to execute a command will vary.  This tutorial focuses on taking a picture and then using [commands/status](https://api.ricoh/docs/theta-web-api-v2.1/protocols/commands_status/) to see if the "taking picture" process is "done".
+The camera will take 3-5 seconds after a picture is taken to be ready to take another picture.  The time may vary depending on light conditions and filters.  For example, using the HDR filter will result in a longer time to be ready.  There are many scenarios where the time to execute a command will vary. If the previous command is in progress, then the next command may fail. This tutorial focuses on taking a picture and then using [commands/status](https://api.ricoh/docs/theta-web-api-v2.1/protocols/commands_status/) to see if the "taking picture" process is "done".
 
 ## Steps
 * take picture with commands/execute
