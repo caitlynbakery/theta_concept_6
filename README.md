@@ -4,6 +4,10 @@
 
 After running a takePicture command, a developer must check to see if the camera is ready before issuing another command
 
+## Concepts
+
+The process id is parsed out when the `commands/execute` is run and then emitted to the state of the camera. Once the state is updated, the id is passed into the `commands/status` since it's a required parameter for the command to run. 
+
 ## Overview
 
 The camera will take 3-5 seconds after a picture is taken to be ready to take another picture.  The time may vary depending on light conditions and filters.  For example, using the HDR filter will result in a longer time to be ready.  There are many scenarios where the time to execute a command will vary.  This tutorial focuses on taking a picture and then using [commands/status](https://api.ricoh/docs/theta-web-api-v2.1/protocols/commands_status/) to see if the "taking picture" process is "done".
@@ -61,13 +65,13 @@ emit(CameraUseState(
 
 ## StopWatch
 
-To implement the timer feature in the application, the Stopwatch class was imported into the project. Inside of the `CameraUseState` file, a variable called `elapsedTime` records the time that has passed on the stopwatch. When the user presses the takePicture button, the stopwatch is started.
+To implement the timer feature in the application, the Stopwatch class was imported into the project. Inside of the `CameraUseState` file, a variable called `elapsedTime` records the time that has passed on the stopwatch. When the user presses the takePicture button, the stopwatch is started in the `TakePictureEvent`.
 
 ```dart
       stopwatch.start();
 ```
 
-Then, a while loop continously adds the `CameraStatusEvent` until the image is done shooting or `state.cameraState` equals done. The delay is neccessary to give enough time for the state of the camera to change. Thus, the `elapsedTime` variable is updated every 200 milliseconds and the UI changes in tandem.
+Then, a while loop continously adds the `CameraStatusEvent` to the `TakePictureEvent` until the image is done shooting or `state.cameraState` equals done. The delay is neccessary to give enough time for the state of the camera to change. Thus, the `elapsedTime` variable is updated every 200 milliseconds and the UI changes in tandem.
 
 ```dart
       while (state.cameraState != "done") {
@@ -117,3 +121,7 @@ The ternary operator is a nested ternary operator. If the `cameraState` is not e
                                 )
                               : Container()
 ```
+
+Here is a test image taken with the application:
+
+![test image](docs/test_image.png)
