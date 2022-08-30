@@ -16,9 +16,13 @@ The camera will take 3-5 seconds after a picture is taken to be ready to take an
 
 ## iOS Screenshots
 
+This project works with iOS as well as Android platforms. 
+
 ![ios1](docs/ios1.png)
 
 ![ios2](docs/ios2.png)
+
+![iphone](docs/iphone.jpg)
 
 ## Steps
 * take picture with commands/execute
